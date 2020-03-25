@@ -1,0 +1,7 @@
+{
+  "name": "vitrine",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
