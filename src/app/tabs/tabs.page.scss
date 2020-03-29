@@ -1,1 +1,20 @@
+ion-tab-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;    
+    --background: rgba(0,0,0,0.8);
+}
 
+ion-tabs {
+    // --background: rgba(0,0,0,0.2);
+    width: 100%;
+}
+
+ion-tab-button{
+    // --background-focused: rgb(195, 162, 12);
+    // --color-selected: rgb(195, 162, 12);
+    // --background-focused: rgb(231, 19, 178);
+    --color-selected: #5D8A23;
+    --color: #FFFFFF;
+}

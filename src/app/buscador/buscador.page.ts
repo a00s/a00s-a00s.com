@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 @Component({
   selector: 'app-buscador',
   templateUrl: './buscador.page.html',
@@ -13,56 +14,39 @@ export class BuscadorPage implements OnInit {
   id_empresa: string;
   constructor(
     private http: HttpClient,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.activatedRoute.queryParamMap
+      .subscribe((queryParams: ParamMap) => {
+        for(let i in queryParams["params"]){
+          this.id_empresa = i;
+        }
+      });
     this.procuraURLapi();
   }
 
   procuraURLapi() {
-    // this.http.get('http://w.a00s.com/ultima_versao_api').map(res => res.text()).subscribe(
-    //   data => {
-    //     this.urlAPI = data;
-    //     this.urlAPI = "https://www.a00s.com.br/a00s_V2-20170318";
-
-    //     if (this.id_empresa == null) {
-    //       this.buscaQuantidade();
-    //     } else {
-    //       this.buscaApiEmpresa();
-    //     }
-    //   },
-    //   err => {
-    //     console.log("Nao foi possivel buscar!" + err);
-    //   }
-    // );
-    // this.http.get('https://w.a00s.com/ultima_versao_api').subscribe((result) => {
-    //   console.log(result);
     this.urlAPI = "https://ww2.a00s.com:8443";
     if (this.id_empresa == null || this.id_empresa == "") {
       this.buscaQuantidade();
     } else {
       this.buscaApiEmpresa();
     }
-    // if (result != undefined && result["data"] != undefined) {
-    // }
-    // }, (error) => {
-    //   console.log(error);
-    // });
   }
 
   buscaApiEmpresa() {
-    // this.http.get(this.urlAPI + '/a00s_api?tipo=a00s_busca_empresa&busca=' + this.buscar + "&empresa=" + this.id_empresa).map(res => res.json()).subscribe(
-    //   data => {
-    //     this.produtos = data;
-    //     if (this.produtos.length == 0) {
-    //       this.produtos = [{
-    //         "descricao": "Produto não encontrado"
-    //       }]
-    //     }
-    //   },
-    //   err => {
-    //     console.log("Nao foi possivel buscar!" + err);
-    //   });
+    this.http.get(this.urlAPI + '/a00s_api?tipo=a00s_busca_empresa&busca=' + this.buscar + "&empresa=" + this.id_empresa).subscribe((data) => {   
+      this.produtos = data;
+      if (this.produtos.length == 0) {
+        this.produtos = [{
+          "descricao": "Produto não encontrado"
+        }]
+      }
+    }, (error) => {
+      console.log(error);
+    });
   }
 
   buscaApi() {
@@ -112,5 +96,4 @@ export class BuscadorPage implements OnInit {
   limpar() {
     this.buscar = "";
   }
-
 }
